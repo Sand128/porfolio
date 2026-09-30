@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mary Sandra Alvarado Velázquez · Backend Developer Jr</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        /* ---------- RESET & VARIABLES ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-light: #f8fafd;
+            --surface: #ffffff;
+            --surface-alt: #f9fbfe;
+            --primary: #6d28d9;
+            --primary-light: #a78bfa;
+            --primary-dark: #5b21b6;
+            --accent: #0891b2;
+            --text-dark: #1e293b;
+            --text-light: #475569;
+            --text-muted: #64748b;
+            --border-light: #e2e8f0;
+            --navbar-bg: rgba(255, 255, 255, 0.85);
+            --navbar-border: rgba(226, 232, 240, 0.7);
+            --hero-visual-bg: linear-gradient(145deg, #ede9fe, #ffffff);
+            --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 20px 30px -10px rgba(0, 0, 0, 0.1);
+            --radius-card: 1.75rem;
+            --radius-btn: 2.5rem;
+            --transition: all 0.25s ease;
+        }
+
+        /* ---------- TEMA OSCURO ---------- */
+        body.dark {
+            --bg-light: #0b0f1a;
+            --surface: #131a2b;
+            --surface-alt: #1a2236;
+            --primary: #a78bfa;
+            --primary-light: #c4b5fd;
+            --primary-dark: #8b5cf6;
+            --accent: #22d3ee;
+            --text-dark: #f1f5f9;
+            --text-light: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-light: #2d3a52;
+            --navbar-bg: rgba(11, 15, 26, 0.85);
+            --navbar-border: rgba(45, 58, 82, 0.7);
+            --hero-visual-bg: linear-gradient(145deg, #1e1b4b, #131a2b);
+            --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+            --shadow-md: 0 20px 30px -10px rgba(0, 0, 0, 0.6);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* ---------- UTILIDADES ---------- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            padding: 4rem 0;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+        }
+
+        .section-subhead {
+            color: var(--text-light);
+            font-size: 1.15rem;
+            margin-top: -0.5rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.85rem 2rem;
+            border-radius: var(--radius-btn);
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            letter-spacing: -0.01em;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 10px 18px -8px rgba(109, 40, 217, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 20px 25px -8px rgba(109, 40, 217, 0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--border-light);
+            color: var(--text-dark);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            background: rgba(109, 40, 217, 0.08);
+            transform: translateY(-3px);
+        }
+
+        .btn-cv {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            box-shadow: 0 10px 18px -8px rgba(109, 40, 217, 0.4);
+        }
+
+        .btn-cv:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 25px -8px rgba(109, 40, 217, 0.5);
+            filter: brightness(1.1);
+        }
+
+        /* ---------- HEADER / NAV ---------- */
+        .navbar {
+            background: var(--navbar-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 0.9rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--navbar-border);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-dark);
+            white-space: nowrap;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.6rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .theme-toggle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.08);
+        }
+
+        .btn-cv-nav {
+            padding: 0.55rem 1.2rem;
+            font-size: 0.85rem;
+            border-radius: var(--radius-btn);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-cv-nav:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        /* ---------- HERO ---------- */
+        .hero {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            align-items: center;
+            gap: 3rem;
+            padding: 2rem 0 4rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(109, 40, 217, 0.12);
+            color: var(--primary);
+            padding: 0.35rem 1rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            margin-bottom: 1.2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.9rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1.15;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero .tagline {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 1.2rem;
+            font-weight: 400;
+            max-width: 650px;
+        }
+
+        .hero .sub-tagline {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-weight: 400;
+            max-width: 650px;
+            font-style: italic;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-visual {
+            background: var(--hero-visual-bg);
+            border-radius: 2.5rem;
+            padding: 2.5rem 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            aspect-ratio: 1/0.9;
+            gap: 1rem;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+
+        .hero-visual i {
+            font-size: 5.5rem;
+            color: var(--primary);
+            opacity: 0.9;
+            filter: drop-shadow(0 15px 15px rgba(109, 40, 217, 0.2));
+        }
+
+        .hero-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--primary);
+            box-shadow: 0 15px 30px -10px rgba(109, 40, 217, 0.5);
+            transition: var(--transition);
+            display: block;
+        }
+
+        .hero-photo:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 20px 40px -10px rgba(109, 40, 217, 0.7);
+        }
+
+        .hero-visual p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* ---------- TARJETAS / GRIDS ---------- */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .card {
+            background: var(--surface);
+            padding: 2rem 1.8rem;
+            border-radius: var(--radius-card);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(109, 40, 217, 0.3);
+        }
+
+        .card i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card p, .card ul {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .card ul li {
+            margin-bottom: 0.6rem;
+            padding-left: 1.4rem;
+            position: relative;
+        }
+
+        .card ul li:before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* ===================================================
+           CARRUSEL DE PROYECTOS
+        =================================================== */
+        .carousel-wrapper {
+            position: relative;
+            margin-top: 1rem;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+            padding: 0.5rem 0.25rem 1.5rem;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-track .project-card {
+            flex: 0 0 calc(33.333% - 1rem);
+            scroll-snap-align: start;
+            min-width: 0;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            z-index: 10;
+            font-size: 1rem;
+        }
+
+        .carousel-btn:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+            transform: translateY(-50%) scale(1.08);
+        }
+
+        .carousel-btn.prev {
+            left: -20px;
+        }
+
+        .carousel-btn.next {
+            right: -20px;
+        }
+
+        .carousel-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            transform: translateY(-50%);
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-top: 0.5rem;
+        }
+
+        .carousel-dots .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 0;
+        }
+
+        .carousel-dots .dot.active {
+            background: var(--primary);
+            width: 28px;
+            border-radius: 10px;
+        }
+
+        /* Tarjeta de proyecto */
+        .project-card {
+            background: var(--surface);
+            border-radius: var(--radius-card);
+            padding: 1.8rem;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(109, 40, 217, 0.3);
+        }
+
+        .project-tag {
+            display: inline-block;
+            background: rgba(109, 40, 217, 0.12);
+            color: var(--primary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.85rem;
+            border-radius: 30px;
+            margin-bottom: 1rem;
+            letter-spacing: 0.02em;
+            align-self: flex-start;
+        }
+
+        .project-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-desc {
+            color: var(--text-light);
+            font-size: 0.93rem;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .project-detail {
+            font-size: 0.83rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .project-detail strong {
+            color: var(--text-dark);
+            font-weight: 600;
+            min-width: 70px;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin: 0.8rem 0;
+        }
+
+        .project-tech span {
+            background: var(--surface-alt);
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.73rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            border: 1px solid var(--border-light);
+        }
+
+        .project-link {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 0.75rem;
+        }
+
+        /* ---------- SERVICIOS ---------- */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .service-item {
+            background: var(--surface);
+            border-radius: 2rem;
+            padding: 2rem 1.8rem;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .service-item:hover {
+            border-color: var(--primary-light);
+            background: var(--surface-alt);
+        }
+
+        .service-item i {
+            font-size: 1.9rem;
+            color: var(--accent);
+            margin-bottom: 1.3rem;
+        }
+
+        .service-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .service-item p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* ---------- TESTIMONIOS ---------- */
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .testimonial-card {
+            background: var(--surface);
+            border-radius: 2rem;
+            padding: 2rem;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            font-style: italic;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--primary-light);
+        }
+
+        .testimonial-text {
+            font-size: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .testimonial-author {
+            font-style: normal;
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .testimonial-author i {
+            color: var(--primary);
+            font-size: 1.6rem;
+        }
+
+        /* ---------- CONTACTO ---------- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 3rem;
+            background: var(--surface);
+            border-radius: 2.5rem;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
+        }
+
+        .contact-info i {
+            color: var(--primary);
+            width: 1.8rem;
+            font-size: 1.2rem;
+        }
+
+        .contact-info p {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            font-weight: 500;
+            flex-wrap: wrap;
+        }
+
+        .contact-info a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact-info a:hover {
+            color: var(--primary);
+        }
+
+        .contact-form .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border-radius: 1.5rem;
+            border: 1px solid var(--border-light);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            background: var(--surface-alt);
+            color: var(--text-dark);
+            transition: var(--transition);
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--surface);
+            box-shadow: 0 0 0 4px rgba(109, 40, 217, 0.15);
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 130px;
+        }
+
+        /* ---------- FOOTER ---------- */
+        footer {
+            padding: 2.5rem 0;
+            text-align: center;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-light);
+            font-size: 0.9rem;
+        }
+
+        .skills-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin-top: 1.5rem;
+        }
+
+        .skills-tags span {
+            background: var(--surface-alt);
+            padding: 0.6rem 1.2rem;
+            border-radius: 40px;
+            border: 1px solid var(--border-light);
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            transition: var(--transition);
+        }
+
+        .skills-tags span:hover {
+            border-color: var(--primary);
+            background: rgba(109, 40, 217, 0.08);
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 1000px) {
+            .carousel-track .project-card {
+                flex: 0 0 calc(50% - 0.75rem);
+            }
+            .nav-links {
+                gap: 1rem;
+            }
+            .nav-links a {
+                font-size: 0.82rem;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .hero .tagline,
+            .hero .sub-tagline {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            h2:after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            h2 {
+                display: block;
+                text-align: center;
+            }
+
+            .section-subhead {
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .carousel-btn {
+                width: 42px;
+                height: 42px;
+            }
+
+            .carousel-btn.prev {
+                left: -8px;
+            }
+
+            .carousel-btn.next {
+                right: -8px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .carousel-track .project-card {
+                flex: 0 0 85%;
+            }
+            .btn-cv-nav span {
+                display: none;
+            }
+        }
+
+        @media (max-width: 550px) {
+            section {
+                padding: 2.5rem 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-photo {
+                width: 150px;
+                height: 150px;
+            }
+
+            .hero .tagline {
+                font-size: 1.05rem;
+            }
+
+            .btn {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .card, .project-card, .service-item, .testimonial-card {
+                padding: 1.5rem;
+            }
+
+            .contact-grid {
+                padding: 1.5rem;
+            }
+
+            .hero-visual {
+                padding: 2rem;
+            }
+
+            .hero-visual i {
+                font-size: 4rem;
+            }
+
+            .carousel-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 0.85rem;
+            }
+
+            .theme-toggle {
+                width: 38px;
+                height: 38px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVEGACIÓN -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">Mary<span>Sandra</span></div>
+            <ul class="nav-links">
+                <li><a href="#sobre-mi">Sobre mí</a></li>
+                <li><a href="#habilidades">Habilidades</a></li>
+                <li><a href="#proyectos">Proyectos</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="#" class="btn-cv-nav" id="downloadCvNav">
+                    <i class="fas fa-download"></i> <span>CV</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="container hero">
+        <div class="hero-content">
+            <span class="hero-badge"><i class="fas fa-database"></i> Backend Developer Jr</span>
+            <h1>Hola, soy <span class="highlight">Mary Sandra Alvarado Velázquez</span></h1>
+            <p class="tagline">Backend Developer Jr | APIs REST | Laravel | SQL | Arquitectura de Datos | Modelado de Datos</p>
+            <p class="sub-tagline">Ingeniera en Sistemas Computacionales enfocada en desarrollo backend y arquitectura de datos.</p>
+            <div class="hero-buttons">
+                <a href="#proyectos" class="btn btn-primary"><i class="fas fa-arrow-down"></i> Ver proyectos</a>
+                <a href="#contacto" class="btn btn-outline"><i class="fas fa-paper-plane"></i> Contactarme</a>
+                <a href="#" class="btn btn-cv" id="downloadCvHero"><i class="fas fa-file-download"></i> Descargar CV</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <img src="sand.jpg" alt="Mary Sandra Alvarado Velázquez" class="hero-photo">
+            <p><i class="fas fa-map-marker-alt"></i> Tianguistenco, Edo. México</p>
+        </div>
+    </header>
+
+    <!-- SOBRE MÍ -->
+    <section id="sobre-mi" class="container">
+        <h2>Sobre mí</h2>
+        <div class="card-grid">
+            <div class="card">
+                <i class="fas fa-user-astronaut"></i>
+                <h3>Perfil profesional</h3>
+                <p>Ingeniera en Sistemas Computacionales con enfoque en desarrollo Backend y arquitectura de datos. Experiencia en análisis y modelado de procesos institucionales, diseño de bases de datos relacionales y desarrollo de APIs REST con Laravel. Participé en la implementación de un sistema administrativo real, optimizando flujos operativos y validaciones de negocio.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-bullseye"></i>
+                <h3>Objetivo</h3>
+                <p>Busco integrarme como Backend Developer Jr en modalidad híbrida para fortalecer mis habilidades en entornos productivos, aportando mi experiencia en modelado de datos, lógica de negocio y desarrollo con Laravel.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-briefcase"></i>
+                <h3>Experiencia e intereses</h3>
+                <p>He trabajado en atención al cliente, administración y prácticas profesionales en el sector salud (ISEM). Me interesa el diseño de bases de datos relacionales, APIs REST, arquitectura MVC y el análisis de procesos institucionales.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- HABILIDADES -->
+    <section id="habilidades" class="container">
+        <h2>Habilidades y tecnologías</h2>
+        <p class="section-subhead">Herramientas que domino para desarrollo backend, bases de datos y gestión de proyectos.</p>
+        <div class="card-grid">
+            <div class="card">
+                <i class="fas fa-code"></i>
+                <h3>Lenguajes de programación</h3>
+                <div class="skills-tags">
+                    <span>PHP</span><span>Java</span><span>Python</span><span>JavaScript (ES6+)</span>
+                </div>
+            </div>
+            <div class="card">
+                <i class="fas fa-server"></i>
+                <h3>Backend</h3>
+                <div class="skills-tags">
+                    <span>Laravel</span><span>APIs REST</span><span>Arquitectura MVC</span>
+                </div>
+            </div>
+            <div class="card">
+                <i class="fas fa-database"></i>
+                <h3>Bases de datos</h3>
+                <div class="skills-tags">
+                    <span>MySQL</span><span>Diseño relacional</span><span>Modelado</span><span>Normalización</span><span>Consultas avanzadas</span><span>Índices</span><span>SQL (JSON)</span>
+                </div>
+            </div>
+            <div class="card">
+                <i class="fas fa-tasks"></i>
+                <h3>Ingeniería de Software</h3>
+                <div class="skills-tags">
+                    <span>POO</span><span>UML</span><span>Levantamiento de requerimientos</span><span>Scrum</span>
+                </div>
+            </div>
+            <div class="card">
+                <i class="fas fa-tools"></i>
+                <h3>Herramientas</h3>
+                <div class="skills-tags">
+                    <span>Git</span><span>GitHub</span><span>Laravel</span><span>Docker (básico)</span><span>React</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROYECTOS CON CARRUSEL -->
+    <section id="proyectos" class="container">
+        <h2>Proyecto de titulación</h2>
+        <p class="section-subhead">Análisis y Diseño de un Sistema de Información Administrativa para la Coordinación Estatal de Lactancia y Bancos de Leche Humana del ISEM – Estado de México. Desliza o usa las flechas.</p>
+
+        <div class="carousel-wrapper">
+            <button class="carousel-btn prev" id="carouselPrev" aria-label="Proyecto anterior">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <div class="carousel-track" id="carouselTrack">
+                <article class="project-card">
+                    <span class="project-tag">Proyecto de Titulación</span>
+                    <h3>Sistema de Información Administrativa – ISEM</h3>
+                    <p class="project-desc">Digitalización del proceso de captación, control y distribución de leche materna, sustituyendo flujos manuales por un sistema estructurado y trazable.</p>
+                    <div class="project-detail"><strong>Problema:</strong> Procesos manuales sin trazabilidad en el sector salud.</div>
+                    <div class="project-detail"><strong>Mi rol:</strong> Analista de Sistemas y Desarrolladora Full-Stack.</div>
+                    <div class="project-tech"><span>Laravel</span><span>MySQL</span><span>React</span><span>APIs REST</span><span>UML</span></div>
+                    <div class="project-detail"><strong>Resultado:</strong> Sistema modular preparado para integración con APIs REST.</div>
+                    <div class="project-detail"><strong>Production:</strong> sistema-blh-v3.vercel.app</div>
+                    <div class="project-detail"><strong>Acceso:</strong> admin / leche2025</div>
+                    <a href="https://sistema-blh-v3.vercel.app/" target="_blank" class="project-link">Ver Vercel <i class="fas fa-arrow-right"></i></a>
+                </article>
+
+                <article class="project-card">
+                    <span class="project-tag">Análisis y Diseño</span>
+                    <h3>Levantamiento y modelado de procesos</h3>
+                    <p class="project-desc">Análisis de procesos institucionales en el ISEM para la digitalización de flujos operativos del área de lactancia y bancos de leche.</p>
+                    <div class="project-detail"><strong>Problema:</strong> Necesidad de digitalizar y estandarizar procesos críticos.</div>
+                    <div class="project-detail"><strong>Mi rol:</strong> Levantamiento de requerimientos y análisis de procesos.</div>
+                    <div class="project-tech"><span>UML</span><span>Scrum</span><span>Modelado de Datos</span></div>
+                    <div class="project-detail"><strong>Resultado:</strong> Documentación completa y validación de flujos con el equipo técnico.</div>
+                    <a href="Levantamiento_modelado_procesos.pdf" target="_blank" class="project-link">Ver Documento <i class="fas fa-arrow-right"></i></a>
+                </article>
+
+                <article class="project-card">
+                    <span class="project-tag">Base de Datos</span>
+                    <h3>Diseño y modelado de BD relacional en MySQL</h3>
+                    <p class="project-desc">Diseño y modelado de una base de datos relacional compleja para el sistema administrativo del ISEM, con normalización, índices y consultas avanzadas.</p>
+                    <div class="project-detail"><strong>Problema:</strong> Necesidad de almacenar y consultar información crítica con integridad.</div>
+                    <div class="project-detail"><strong>Mi rol:</strong> Diseño de la base de datos y lógica de negocio.</div>
+                    <div class="project-tech"><span>MySQL</span><span>SQL (JSON)</span><span>Normalización</span><span>Índices</span></div>
+                    <div class="project-detail"><strong>Resultado:</strong> Estructura optimizada y trazable para información crítica.</div>
+                    <a href="Diagrama_Relacional_Base_Datos.pdf" target="_blank" class="project-link">Ver Documento <i class="fas fa-arrow-right"></i></a>
+                </article>
+
+                <article class="project-card">
+                    <span class="project-tag">Prácticas Profesionales</span>
+                    <h3>Departamento de Software – ISEM</h3>
+                    <p class="project-desc">Participación en el análisis y digitalización de procesos administrativos del sector salud, colaborando con el equipo técnico en el diseño de soluciones.</p>
+                    <div class="project-detail"><strong>Problema:</strong> Optimización de flujos operativos internos.</div>
+                    <div class="project-detail"><strong>Mi rol:</strong> Apoyo en modelado de BD y estructuración de lógica de negocio.</div>
+                    <div class="project-tech"><span>Modelado de Datos</span><span>Lógica de Negocio</span><span>Validación</span></div>
+                    <div class="project-detail"><strong>Resultado:</strong> Trazabilidad y validación de información crítica.</div>
+                    <a href="https://github.com/Sand128/" target="_blank" class="project-link">Ver GitHub <i class="fas fa-arrow-right"></i></a>
+                </article>
+            </div>
+
+            <button class="carousel-btn next" id="carouselNext" aria-label="Proyecto siguiente">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <div class="carousel-dots" id="carouselDots"></div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section id="servicios" class="container">
+        <h2>Servicios</h2>
+        <p class="section-subhead">Ofrezco soluciones adaptadas a empresas, reclutadores y equipos de desarrollo.</p>
+        <div class="service-grid">
+            <div class="service-item">
+                <i class="fas fa-server"></i>
+                <h3>Desarrollo Backend</h3>
+                <p>Desarrollo de APIs REST con Laravel, arquitectura MVC y lógica de negocio para sistemas administrativos.</p>
+            </div>
+            <div class="service-item">
+                <i class="fas fa-database"></i>
+                <h3>Diseño y modelado de bases de datos</h3>
+                <p>Diseño relacional, normalización, modelado de datos, consultas avanzadas e índices en MySQL.</p>
+            </div>
+            <div class="service-item">
+                <i class="fas fa-project-diagram"></i>
+                <h3>Análisis y organización de proyectos</h3>
+                <p>Levantamiento de requerimientos, modelado UML y aplicación de metodologías ágiles (Scrum).</p>
+            </div>
+            <div class="service-item">
+                <i class="fas fa-code-branch"></i>
+                <h3>Control de versiones y soporte</h3>
+                <p>Gestión de repositorios con Git y GitHub, colaboración en equipos y mantenimiento de código.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIENCIA Y FORMACIÓN -->
+    <section id="experiencia" class="container">
+        <h2>Experiencia y formación</h2>
+        <div class="card-grid">
+            <div class="card">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Educación</h3>
+                <ul>
+                    <li><strong>Ingeniería en Sistemas Computacionales</strong> – Universidad Mexiquense del Bicentenario (UMB), Xalatlaco. 2021-2026.</li>
+                    <li><strong>Ingeniería en Software</strong> – Universidad Autónoma del Estado de México (UAEM), Santiago Tianguistenco. (Trunca) 2016-2019.</li>
+                    <li><strong>Profesional Técnico Bachiller en Informática</strong> – CONALEP 079, Santiago Tianguistenco. 2012-2015.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <i class="fas fa-briefcase"></i>
+                <h3>Experiencia laboral</h3>
+                <ul>
+                    <li><strong>Prácticas Profesionales | Departamento de Software, ISEM</strong> (Ago 2025 – Ene 2026). Análisis y digitalización de procesos administrativos del sector salud.</li>
+                    <li><strong>Ventas y Administración | Raidan, Santiago Tianguistenco</strong> (Nov 2019 – Jul 2021). Atención al cliente, gestión de ventas e inventario.</li>
+                    <li><strong>Secretaria | Delegación, San Nicolás Coatepec</strong> (Ago 2015 – Nov 2016). Servicio social y prácticas profesionales.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <i class="fas fa-certificate"></i>
+                <h3>Logros relevantes</h3>
+                <ul>
+                    <li>Participación en la implementación de un sistema administrativo real para el ISEM.</li>
+                    <li>Diseño y modelado de una base de datos relacional compleja en MySQL.</li>
+                    <li>Desarrollo de una interfaz en React para entorno hospitalario.</li>
+                    <li>Optimización de flujos operativos y validaciones de negocio.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIOS -->
+    <section id="testimonios" class="container">
+        <h2>Testimonios</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Mary Sandra demostró un gran compromiso durante sus prácticas en el ISEM. Su capacidad para analizar procesos y modelar datos fue clave para el proyecto."</p>
+                <div class="testimonial-author"><i class="fas fa-user-circle"></i> Equipo Técnico · ISEM</div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Como compañera de equipo, siempre aporta claridad en el modelado de datos y en la lógica de negocio. Su enfoque en la trazabilidad es excelente."</p>
+                <div class="testimonial-author"><i class="fas fa-user-circle"></i> Compañero de Proyecto · UMB</div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Durante su formación, destacó por su disciplina y capacidad para levantar requerimientos complejos. Es una profesional comprometida."</p>
+                <div class="testimonial-author"><i class="fas fa-user-circle"></i> Profesor · Universidad Mexiquense del Bicentenario</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto" class="container">
+        <h2>Contacto</h2>
+        <p class="section-subhead">¿Tienes una oportunidad o proyecto en mente? Hablemos.</p>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <p><i class="fas fa-envelope"></i> <a href="mailto:m.sandy.av@gmail.com">m.sandy.av@gmail.com</a></p>
+                <p><i class="fas fa-phone-alt"></i> <a href="tel:7131205049">713 120 5049</a></p>
+                <p><i class="fab fa-linkedin"></i> <a href="https://linkedin.com/in/mary-sandra-alvarado-v-290966355" target="_blank">linkedin.com/in/mary-sandra-alvarado-v</a></p>
+                <p><i class="fab fa-github"></i> <a href="https://github.com/Sand128/" target="_blank">github.com/Sand128</a></p>
+                <p><i class="fas fa-map-marker-alt"></i> Tianguistenco, Estado de México</p>
+                <a href="#" class="btn btn-cv" id="downloadCvContact" style="margin-top:1rem; width:100%;">
+                    <i class="fas fa-file-download"></i> Descargar CV
+                </a>
+            </div>
+            <form class="contact-form" action="#" method="post">
+                <div class="form-group">
+                    <input type="text" placeholder="Nombre completo" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Correo electrónico" required>
+                </div>
+                <div class="form-group">
+                    <textarea placeholder="Cuéntame sobre la oportunidad o proyecto..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;"><i class="fas fa-paper-plane"></i> Enviar mensaje</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <p>© 2025 Mary Sandra Alvarado Velázquez · Backend Developer Jr. Todos los derechos reservados.</p>
+            <p style="margin-top:0.5rem; font-size:0.85rem;">Hecho con 💜 y mucho 🐾</p>
+        </div>
+    </footer>
+
+    <!-- ===================================================
+         SCRIPT: CARRUSEL + TEMA + DESCARGA CV
+    =================================================== -->
+    <script>
+        /* ---------- CARRUSEL ---------- */
+        (function () {
+            const track = document.getElementById('carouselTrack');
+            const prevBtn = document.getElementById('carouselPrev');
+            const nextBtn = document.getElementById('carouselNext');
+            const dotsContainer = document.getElementById('carouselDots');
+
+            if (!track) return;
+
+            const cards = Array.from(track.children);
+            let currentIndex = 0;
+            let autoPlayTimer = null;
+
+            function getVisibleCards() {
+                const width = window.innerWidth;
+                if (width <= 640) return 1;
+                if (width <= 1000) return 2;
+                return 3;
+            }
+
+            function getMaxIndex() {
+                const visible = getVisibleCards();
+                return Math.max(0, cards.length - visible);
+            }
+
+            function getStep() {
+                if (!cards.length) return 0;
+                const gap = parseFloat(getComputedStyle(track).gap) || 0;
+                return cards[0].offsetWidth + gap;
+            }
+
+            function goTo(index) {
+                const maxIndex = getMaxIndex();
+                currentIndex = Math.min(Math.max(index, 0), maxIndex);
+                const step = getStep();
+                track.scrollTo({
+                    left: currentIndex * step,
+                    behavior: 'smooth'
+                });
+                updateUI();
+            }
+
+            function updateUI() {
+                const maxIndex = getMaxIndex();
+                prevBtn.disabled = currentIndex <= 0;
+                nextBtn.disabled = currentIndex >= maxIndex;
+
+                dotsContainer.innerHTML = '';
+                for (let i = 0; i <= maxIndex; i++) {
+                    const dot = document.createElement('button');
+                    dot.className = 'dot' + (i === currentIndex ? ' active' : '');
+                    dot.setAttribute('aria-label', 'Ir al proyecto ' + (i + 1));
+                    dot.addEventListener('click', () => {
+                        goTo(i);
+                        resetAutoPlay();
+                    });
+                    dotsContainer.appendChild(dot);
+                }
+            }
+
+            function syncIndexFromScroll() {
+                const step = getStep();
+                if (!step) return;
+                const newIndex = Math.round(track.scrollLeft / step);
+                if (newIndex !== currentIndex) {
+                    currentIndex = newIndex;
+                    updateUI();
+                }
+            }
+
+            prevBtn.addEventListener('click', () => { goTo(currentIndex - 1); resetAutoPlay(); });
+            nextBtn.addEventListener('click', () => { goTo(currentIndex + 1); resetAutoPlay(); });
+
+            track.addEventListener('scroll', () => {
+                window.requestAnimationFrame(syncIndexFromScroll);
+            });
+
+            window.addEventListener('resize', () => {
+                updateUI();
+                goTo(currentIndex);
+            });
+
+            function startAutoPlay() {
+                stopAutoPlay();
+                autoPlayTimer = setInterval(() => {
+                    const maxIndex = getMaxIndex();
+                    if (maxIndex === 0) return;
+                    const next = currentIndex >= maxIndex ? 0 : currentIndex + 1;
+                    goTo(next);
+                }, 6000);
+            }
+
+            function stopAutoPlay() {
+                if (autoPlayTimer) {
+                    clearInterval(autoPlayTimer);
+                    autoPlayTimer = null;
+                }
+            }
+
+            function resetAutoPlay() {
+                stopAutoPlay();
+                startAutoPlay();
+            }
+
+            track.addEventListener('mouseenter', stopAutoPlay);
+            track.addEventListener('mouseleave', startAutoPlay);
+
+            updateUI();
+            startAutoPlay();
+        })();
+
+        /* ---------- TEMA CLARO / OSCURO ---------- */
+        (function () {
+            const toggle = document.getElementById('themeToggle');
+            const icon = toggle.querySelector('i');
+            const body = document.body;
+
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+
+            toggle.addEventListener('click', () => {
+                body.classList.toggle('dark');
+                const isDark = body.classList.contains('dark');
+                if (isDark) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        })();
+
+        /* ---------- DESCARGA DE CV ---------- */
+        (function () {
+            const rutaCV = 'CV_MarySandraAlvarado_Sistemas.pdf';
+
+            function downloadCV() {
+                const a = document.createElement('a');
+                a.href = rutaCV;
+                a.download = 'CV_Mary_Sandra_Alvarado.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+
+            document.getElementById('downloadCvNav')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                downloadCV();
+            });
+            document.getElementById('downloadCvHero')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                downloadCV();
+            });
+            document.getElementById('downloadCvContact')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                downloadCV();
+            });
+        })();
+    </script>
+</body>
+</html>
